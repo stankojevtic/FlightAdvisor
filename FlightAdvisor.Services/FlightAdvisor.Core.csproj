@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FlightAdvisor.Data\FlightAdvisor.Data.csproj" />
+    <ProjectReference Include="..\FlightAdvisor.Interfaces\FlightAdvisor.Interfaces.csproj" />
+  </ItemGroup>
+
+</Project>
