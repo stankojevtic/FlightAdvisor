@@ -1,4 +1,4 @@
-﻿namespace FlightAdvisor.Domain.Models
+﻿namespace FlightAdvisor.Domain.Entities
 {
     public class City
     {

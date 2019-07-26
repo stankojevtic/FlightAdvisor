@@ -2,7 +2,7 @@
 using FlightAdvisor.API.DTO;
 using FlightAdvisor.API.DTO.City;
 using FlightAdvisor.API.DTO.Comment;
-using FlightAdvisor.Domain.Models;
+using FlightAdvisor.Domain.Entities;
 
 namespace FlightAdvisor.API.AutoMapper
 {

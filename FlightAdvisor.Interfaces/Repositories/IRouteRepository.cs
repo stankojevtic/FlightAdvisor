@@ -2,7 +2,7 @@
 
 namespace FlightAdvisor.Interfaces.Repositories
 {
-    public interface ICityRepository : IBaseRepository<City>
+    public interface IRouteRepository : IBaseRepository<Route>
     {
     }
 }

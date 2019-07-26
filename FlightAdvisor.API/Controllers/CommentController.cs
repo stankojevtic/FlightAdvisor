@@ -3,7 +3,7 @@ using FlightAdvisor.API.DTO;
 using FlightAdvisor.API.DTO.Comment;
 using FlightAdvisor.API.Validation;
 using FlightAdvisor.Core.CustomExceptions;
-using FlightAdvisor.Domain.Models;
+using FlightAdvisor.Domain.Entities;
 using FlightAdvisor.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -4,9 +4,9 @@ using FlightAdvisor.Interfaces.Repositories;
 
 namespace FlightAdvisor.Repositories.Repositories
 {
-    public class CommentRepository : BaseRepository<Comment>, ICommentRepository
+    public class RouteRepository : BaseRepository<Route>, IRouteRepository
     {
-        public CommentRepository(DataContext context) : base(context)
+        public RouteRepository(DataContext context) : base(context)
         {
         }
     }

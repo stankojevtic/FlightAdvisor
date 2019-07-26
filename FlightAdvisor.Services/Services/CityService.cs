@@ -1,4 +1,4 @@
-﻿using FlightAdvisor.Domain.Models;
+﻿using FlightAdvisor.Domain.Entities;
 using FlightAdvisor.Interfaces.Repositories;
 using FlightAdvisor.Interfaces.Services;
 using System;

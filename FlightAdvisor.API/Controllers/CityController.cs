@@ -5,7 +5,7 @@ using AutoMapper;
 using FlightAdvisor.API.DTO;
 using FlightAdvisor.API.DTO.City;
 using FlightAdvisor.API.Validation;
-using FlightAdvisor.Domain.Models;
+using FlightAdvisor.Domain.Entities;
 using FlightAdvisor.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -56,7 +56,7 @@ namespace FlightAdvisor.API.Controllers
 
                 return Ok("City successfully added.");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }

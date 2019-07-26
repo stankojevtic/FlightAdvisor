@@ -1,4 +1,4 @@
-﻿using FlightAdvisor.Domain.Models;
+﻿using FlightAdvisor.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -14,6 +14,8 @@ namespace FlightAdvisor.API
 
         public DbSet<City> Cities { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Airport> Airports { get; set; }
+        public DbSet<Route> Routes { get; set; }
 
         public override int SaveChanges()
         {

@@ -1,4 +1,4 @@
-﻿using FlightAdvisor.Domain.Models;
+﻿using FlightAdvisor.Domain.Entities;
 
 namespace FlightAdvisor.Interfaces.Repositories
 {

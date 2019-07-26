@@ -34,6 +34,10 @@ namespace FlightAdvisor.API
             services.AddTransient<ICityRepository, CityRepository>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<IAirportService, AirportService>();
+            services.AddTransient<IAirportRepository, AirportRepository>();
+            services.AddTransient<IRouteService, RouteService>();
+            services.AddTransient<IRouteRepository, RouteRepository>();
 
             var mappingConfig = new MapperConfiguration(mc =>
             {

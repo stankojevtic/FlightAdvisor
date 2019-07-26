@@ -1,10 +1,9 @@
 ﻿using FlightAdvisor.Core.CustomExceptions;
-using FlightAdvisor.Domain.Models;
+using FlightAdvisor.Domain.Entities;
 using FlightAdvisor.Interfaces.Repositories;
 using FlightAdvisor.Interfaces.Services;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace FlightAdvisor.Core.Services
 {

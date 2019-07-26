@@ -1,5 +1,5 @@
 ﻿using FlightAdvisor.API;
-using FlightAdvisor.Domain.Models;
+using FlightAdvisor.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -24,14 +24,14 @@ namespace FlightAdvisor.Data
                     new City
                     {
                         Id = 1,
-                        Name = "Belgrade",
-                        Country = "Serbia",
-                        Description = "Capital of Serbia."
+                        Name = "Goroka",
+                        Country = "Canada",
+                        Description = "Capital of test."
                     },
                     new City
                     {
                         Id = 2,
-                        Name = "Rome",
+                        Name = "Madang",
                         Country = "Italy",
                         Description = "Capital of Italy."
                     });

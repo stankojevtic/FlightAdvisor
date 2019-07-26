@@ -1,5 +1,5 @@
 ﻿using FlightAdvisor.API;
-using FlightAdvisor.Domain.Models;
+using FlightAdvisor.Domain.Entities;
 using FlightAdvisor.Interfaces.Repositories;
 
 namespace FlightAdvisor.Repositories.Repositories
