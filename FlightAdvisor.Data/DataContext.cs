@@ -16,6 +16,7 @@ namespace FlightAdvisor.API
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Airport> Airports { get; set; }
         public DbSet<Route> Routes { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public override int SaveChanges()
         {

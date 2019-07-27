@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FlightAdvisor.Core.Models
+﻿namespace FlightAdvisor.Domain.Models
 {
     public class ImportInfoModel
     {
         public int SuccessfullyImportedRows { get; set; }
-        public int SkippedRows{ get; set; }
+        public int SkippedRows { get; set; }
     }
 }

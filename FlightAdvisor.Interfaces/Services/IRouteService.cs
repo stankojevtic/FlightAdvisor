@@ -1,4 +1,4 @@
-﻿using FlightAdvisor.Core.Models;
+﻿using FlightAdvisor.Domain.Models;
 using FlightAdvisor.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;

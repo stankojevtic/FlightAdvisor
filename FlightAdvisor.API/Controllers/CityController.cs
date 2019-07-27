@@ -5,14 +5,16 @@ using AutoMapper;
 using FlightAdvisor.API.DTO;
 using FlightAdvisor.API.DTO.City;
 using FlightAdvisor.API.Validation;
+using FlightAdvisor.Core.Helpers;
 using FlightAdvisor.Domain.Entities;
 using FlightAdvisor.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightAdvisor.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/city")]
     [ApiController]
     public class CityController : ControllerBase
     {
@@ -47,6 +49,7 @@ namespace FlightAdvisor.API.Controllers
 
         [HttpPost]
         [ValidateModel]
+        [Authorize(Roles = Role.Admin)]
         public IActionResult Create([FromBody] CityCreateDTO cityDto)
         {
             try

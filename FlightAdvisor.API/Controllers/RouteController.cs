@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
+using FlightAdvisor.Core.Helpers;
 using FlightAdvisor.Interfaces.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FlightAdvisor.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/route")]
     [ApiController]
     public class RouteController : ControllerBase
     {
@@ -27,6 +29,7 @@ namespace FlightAdvisor.API.Controllers
 
         [Route("import")]
         [HttpPost]
+        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> ImportAsync(IFormFile file)
         {
             try

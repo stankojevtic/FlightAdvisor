@@ -1,4 +1,5 @@
 ﻿using FlightAdvisor.API;
+using FlightAdvisor.Core.Helpers;
 using FlightAdvisor.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +18,7 @@ namespace FlightAdvisor.Data
             {
                 if (context.Cities.Any())
                 {
-                    return; 
+                    return;
                 }
 
                 context.Cities.AddRange(
@@ -34,6 +35,23 @@ namespace FlightAdvisor.Data
                         Name = "Madang",
                         Country = "Italy",
                         Description = "Capital of Italy."
+                    },
+                    new City
+                    {
+                        Id = 3,
+                        Name = "Golden",
+                        Country = "Canada",
+                        Description = "Capital of test."
+                    });
+
+                context.Users.AddRange(
+                    new User
+                    {                        
+                        FirstName = "admin",
+                        LastName = "admin",
+                        Password = "admin",
+                        Role = Role.Admin,
+                        Username = "admin"
                     });
 
                 context.SaveChanges();

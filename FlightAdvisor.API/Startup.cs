@@ -1,16 +1,22 @@
 ﻿using AutoMapper;
 using FlightAdvisor.API.AutoMapper;
+using FlightAdvisor.Core.Helpers.Authorization;
 using FlightAdvisor.Core.Services;
 using FlightAdvisor.Interfaces.Repositories;
 using FlightAdvisor.Interfaces.Services;
 using FlightAdvisor.Repositories.Repositories;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace FlightAdvisor.API
 {
@@ -38,6 +44,9 @@ namespace FlightAdvisor.API
             services.AddTransient<IAirportRepository, AirportRepository>();
             services.AddTransient<IRouteService, RouteService>();
             services.AddTransient<IRouteRepository, RouteRepository>();
+            services.AddTransient<ICheapestFlightService, CheapestFlightService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserRepository, UserRepository>();
 
             var mappingConfig = new MapperConfiguration(mc =>
             {
@@ -56,6 +65,41 @@ namespace FlightAdvisor.API
                     Description = "Flight Advisor",
                     TermsOfService = "None"
                 });
+                c.AddSecurityDefinition("Bearer",
+                new ApiKeyScheme
+                {
+                    In = "header",
+                    Description = "Please enter into field the word 'Bearer' following by space and JWT",
+                    Name = "Authorization",
+                    Type = "apiKey"
+                });
+                c.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>> {
+                {
+                        "Bearer", Enumerable.Empty<string>()
+                }});
+            });
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
+
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(x =>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = true;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
             });
         }
 
@@ -70,6 +114,8 @@ namespace FlightAdvisor.API
             {
                 app.UseHsts();
             }
+
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
             app.UseMvc();

@@ -1,5 +1,5 @@
-﻿using FlightAdvisor.Core.Models;
-using FlightAdvisor.Domain.Entities;
+﻿using FlightAdvisor.Domain.Entities;
+using FlightAdvisor.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace FlightAdvisor.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/comment")]
     [ApiController]
     public class CommentController : ControllerBase
     {
