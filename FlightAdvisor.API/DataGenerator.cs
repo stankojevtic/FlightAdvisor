@@ -49,9 +49,10 @@ namespace FlightAdvisor.Data
                     {                        
                         FirstName = "admin",
                         LastName = "admin",
-                        Password = "admin",
+                        Password = "30gTAU9XT0c3Oppc9xMXjCFrkv0=",
                         Role = Role.Admin,
-                        Username = "admin"
+                        Username = "admin",
+                        Salt = "RFl4aA0JmbgJkkqGmJ5dY+GhWQXZ+yGzDKxPhm0Y9R0="
                     });
 
                 context.SaveChanges();
