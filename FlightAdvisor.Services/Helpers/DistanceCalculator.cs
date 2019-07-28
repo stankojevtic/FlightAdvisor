@@ -7,7 +7,7 @@ namespace FlightAdvisor.Core.Helpers
 {
     public class DistanceCalculator
     {
-        public IDictionary<string, double> CalculateDistances(Graph graph, string startingNode)
+        public List<GraphResultModel> CalculateDistances(Graph graph, string startingNode)
         {
             InitialiseGraph(graph, startingNode);
             ProcessGraph(graph, startingNode);
@@ -50,13 +50,26 @@ namespace FlightAdvisor.Core.Helpers
                 if (distance < connection.Target.DistanceFromStart)
                 {
                     connection.Target.DistanceFromStart = distance;
+                    connection.Target.RouteNames.Add(node.Name);
+                    connection.Target.RoutePrices.Add(node.DistanceFromStart);
                 }
             }
         }
 
-        private IDictionary<string, double> ExtractDistances(Graph graph)
+        private List<GraphResultModel> ExtractDistances(Graph graph)
         {
-            return graph.Nodes.ToDictionary(n => n.Key, n => n.Value.DistanceFromStart);
+            List<GraphResultModel> graphResults = new List<GraphResultModel>();
+            foreach(var node in graph.Nodes)
+            {
+                graphResults.Add(new GraphResultModel
+                {
+                    Key = node.Key,
+                    Distance = node.Value.DistanceFromStart,
+                    RouteNames = node.Value.RouteNames,
+                    RoutePrices = node.Value.RoutePrices
+                });
+            }
+            return graphResults;
         }
     }
 }

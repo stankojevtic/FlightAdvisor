@@ -30,6 +30,9 @@ namespace FlightAdvisor.API.AutoMapper
             CreateMap<User, UserRegisterDTO>()
                 .ReverseMap()
                 .ForMember(x => x.Role, y => y.MapFrom(e => Role.User));
+
+            CreateMap<User, AuthenticationModel>()
+                .ReverseMap();
         }
     }
 }

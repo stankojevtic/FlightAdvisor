@@ -1,5 +1,4 @@
-﻿using FlightAdvisor.Core.Helpers;
-using FlightAdvisor.Core.Helpers.Authorization;
+﻿using FlightAdvisor.Core.Helpers.Authorization;
 using FlightAdvisor.Domain.Entities;
 using FlightAdvisor.Interfaces.Repositories;
 using FlightAdvisor.Interfaces.Services;
@@ -26,13 +25,22 @@ namespace FlightAdvisor.Core.Services
 
         }
 
+        public IEnumerable<User> GetAll()
+        {
+            return _userRepository.GetAll();
+        }
+
+        public IEnumerable<User> GetAll(Func<User, bool> predicate)
+        {
+            return _userRepository.GetWhere(predicate);
+        }
+
         public void Add(User user)
         {
             user.Salt = HashPasswordHelper.GenerateSalt();
             user.Password = HashPasswordHelper.HashPassword(user.Password, user.Salt);
             _userRepository.Add(user);
         }
-
 
         public User Authenticate(string username, string password)
         {
@@ -42,6 +50,11 @@ namespace FlightAdvisor.Core.Services
             if (user == null)
                 return null;
 
+            return GenerateTokenForUser(user);          
+        }
+
+        private User GenerateTokenForUser(User user)
+        {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -61,16 +74,6 @@ namespace FlightAdvisor.Core.Services
             user.Salt = null;
 
             return user;
-        }
-
-        public IEnumerable<User> GetAll()
-        {
-            return _userRepository.GetAll();
-        }
-
-        public IEnumerable<User> GetAll(Func<User, bool> predicate)
-        {
-            return _userRepository.GetWhere(predicate);
         }
     }
 }

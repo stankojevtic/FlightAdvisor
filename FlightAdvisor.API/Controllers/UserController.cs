@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using FlightAdvisor.API.DTO.User;
 using Microsoft.AspNetCore.Authorization;
 using FlightAdvisor.Core.Helpers;
+using FlightAdvisor.Domain.Models;
 
 namespace FlightAdvisor.API.Controllers
 {
@@ -47,7 +48,9 @@ namespace FlightAdvisor.API.Controllers
             if (user == null)
                 return BadRequest("Username or password is incorrect.");
 
-            return Ok(user);
+            var authenticatedUser = _mapper.Map<AuthenticationModel>(user);
+
+            return Ok(authenticatedUser);
         }
 
         [Route("register")]

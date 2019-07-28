@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace FlightAdvisor.Domain.Models
 {
     public class Graph
     {
-        public IDictionary<string, Node> Nodes { get; private set; }
+        public IDictionary<string, Node> Nodes { get; set; }
 
         public Graph()
         {

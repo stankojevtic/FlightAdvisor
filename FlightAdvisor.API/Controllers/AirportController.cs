@@ -1,4 +1,5 @@
-﻿using FlightAdvisor.Core.Helpers;
+﻿using FlightAdvisor.Core.CustomExceptions;
+using FlightAdvisor.Core.Helpers;
 using FlightAdvisor.Interfaces.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,9 +26,27 @@ namespace FlightAdvisor.API.Controllers
         [HttpGet]
         public IActionResult GetCheapestFlight(string sourceCity, string destinationCity)
         {
-            var airports = _cheapestFlightService.FindCheapestFlight(sourceCity, destinationCity);
+            try
+            {
+                if (string.IsNullOrEmpty(sourceCity) || string.IsNullOrEmpty(destinationCity))
+                    return BadRequest("Source city and/or desination city fields are not valid.");
 
-            return Ok(airports);
+                var airports = _cheapestFlightService.FindCheapestFlight(sourceCity, destinationCity);
+
+                return Ok(airports);
+            }
+            catch (NotFoundCityException)
+            {
+                return BadRequest("Source city and/or desination city airport does not exist.");
+            }
+            catch (CheapestRoutePriceIsInfinityException)
+            {
+                return BadRequest("Route between source city and destination city does not exist.");
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [HttpGet]

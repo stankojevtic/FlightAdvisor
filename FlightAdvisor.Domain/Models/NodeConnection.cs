@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace FlightAdvisor.Domain.Models
+﻿namespace FlightAdvisor.Domain.Models
 {
     public class NodeConnection
     {
-        public Node Target { get; private set; }
-        public double Distance { get; private set; }
+        public Node Target { get; set; }
+        public double Distance { get; set; }
 
         public NodeConnection(Node target, double distance)
         {
