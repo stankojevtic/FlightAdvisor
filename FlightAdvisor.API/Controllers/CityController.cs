@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlightAdvisor.API.Controllers
 {
-    [Route("api/city")]
+    [Route("api/cities")]
     [ApiController]
     public class CityController : ControllerBase
     {
@@ -32,7 +32,7 @@ namespace FlightAdvisor.API.Controllers
         [HttpGet]
         public IActionResult GetAll(string searchText = null, int? numberOfComments = null)
         {
-            var cities = _cityService.GetAll(x => searchText == null || x.Name.Contains(searchText));
+            var cities = _cityService.GetAll(x => searchText == null || x.Name.ToLower().Contains(searchText.ToLower()));
             var citiesDto = _mapper.Map<IEnumerable<CityDTO>>(cities);
 
             //bad way, but not sure how to do it using in-memory database, in real DB this foreach is not needed or if LazyLoading is enabled then we can use .Include
@@ -57,9 +57,9 @@ namespace FlightAdvisor.API.Controllers
                 var city = _mapper.Map<City>(cityDto);
                 _cityService.Add(city);
 
-                return Ok("City successfully added.");
+                return Ok("City successfully created.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }

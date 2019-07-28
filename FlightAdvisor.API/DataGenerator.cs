@@ -16,34 +16,11 @@ namespace FlightAdvisor.Data
             using (var context = new DataContext(
                 serviceProvider.GetRequiredService<DbContextOptions<DataContext>>()))
             {
-                if (context.Cities.Any())
+                if (context.Users.Any())
                 {
                     return;
                 }
-
-                context.Cities.AddRange(
-                    new City
-                    {
-                        Id = 1,
-                        Name = "Goroka",
-                        Country = "Canada",
-                        Description = "Capital of test."
-                    },
-                    new City
-                    {
-                        Id = 2,
-                        Name = "Madang",
-                        Country = "Italy",
-                        Description = "Capital of Italy."
-                    },
-                    new City
-                    {
-                        Id = 3,
-                        Name = "Golden",
-                        Country = "Canada",
-                        Description = "Capital of test."
-                    });
-
+            
                 context.Users.AddRange(
                     new User
                     {                        

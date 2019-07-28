@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FlightAdvisor.API.Controllers
 {
-    [Route("api/route")]
+    [Route("api/routes")]
     [ApiController]
     public class RouteController : ControllerBase
     {
@@ -34,11 +34,14 @@ namespace FlightAdvisor.API.Controllers
         {
             try
             {
+                if (file == null)
+                    return BadRequest("Please attach the file.");
+
                 var result = await _routeService.ImportFile(file);
 
                 return Ok("Successfully imported rows: " + result.SuccessfullyImportedRows + ", skipped rows: " + result.SkippedRows);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }

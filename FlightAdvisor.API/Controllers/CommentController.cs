@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace FlightAdvisor.API.Controllers
 {
-    [Route("api/comment")]
+    [Route("api/comments")]
     [ApiController]
     public class CommentController : ControllerBase
     {
@@ -43,13 +43,13 @@ namespace FlightAdvisor.API.Controllers
                 var comment = _mapper.Map<Comment>(commentDto);
                 _commentService.Add(comment);
 
-                return Ok("Comment successfully added.");
+                return Ok("Comment successfully created.");
             }
             catch (NotFoundCityException)
             {
                 return NotFound("City with id " + commentDto.CityId + " does not exist.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
@@ -74,7 +74,7 @@ namespace FlightAdvisor.API.Controllers
             {
                 return NotFound("City with id " + commentDto.CityId + " does not exist.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
@@ -93,7 +93,7 @@ namespace FlightAdvisor.API.Controllers
 
                 return Ok("Comment successfully deleted.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }

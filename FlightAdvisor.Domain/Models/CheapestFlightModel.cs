@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace FlightAdvisor.Domain.Models
+﻿namespace FlightAdvisor.Domain.Models
 {
     public class CheapestFlightModel
     {

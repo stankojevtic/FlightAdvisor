@@ -1,25 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
-using FlightAdvisor.API.DTO;
-using FlightAdvisor.API.DTO.City;
 using FlightAdvisor.API.Validation;
 using FlightAdvisor.Domain.Entities;
 using FlightAdvisor.Interfaces.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using FlightAdvisor.API.DTO.User;
-using Microsoft.AspNetCore.Authorization;
-using FlightAdvisor.Core.Helpers;
-using FlightAdvisor.Domain.Models;
 
 namespace FlightAdvisor.API.Controllers
 {
-    [Route("api/user")]
+    [Route("api/users")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -43,14 +34,24 @@ namespace FlightAdvisor.API.Controllers
         [HttpGet("login")]
         public IActionResult Authenticate(string username, string password)
         {
-            var user = _userService.Authenticate(username, password);
+            try
+            {
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+                    return BadRequest("Username and/or password are empty.");
 
-            if (user == null)
-                return BadRequest("Username or password is incorrect.");
+                var user = _userService.Authenticate(username, password);
 
-            var authenticatedUser = _mapper.Map<AuthenticationModel>(user);
+                if (user == null)
+                    return BadRequest("Username or password is incorrect.");
 
-            return Ok(authenticatedUser);
+                var authenticatedUser = _mapper.Map<AuthenticationModel>(user);
+
+                return Ok(authenticatedUser);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
         }
 
         [Route("register")]
@@ -66,7 +67,7 @@ namespace FlightAdvisor.API.Controllers
                 var user = _mapper.Map<User>(userDto);
                 _userService.Add(user);
 
-                return Ok("User successfully added.");
+                return Ok("Registration successful.");
             }
             catch (Exception)
             {

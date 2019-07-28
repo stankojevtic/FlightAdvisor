@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FlightAdvisor.API.Controllers
 {
-    [Route("api/airport")]
+    [Route("api/airports")]
     [ApiController]
     public class AirportController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace FlightAdvisor.API.Controllers
             _cheapestFlightService = cheapestFlightService;
         }
 
-        [Route("cheapest-flight")]
+        [Route("find-cheapest-flight")]
         [HttpGet]
         public IActionResult GetCheapestFlight(string sourceCity, string destinationCity)
         {
@@ -31,9 +31,9 @@ namespace FlightAdvisor.API.Controllers
                 if (string.IsNullOrEmpty(sourceCity) || string.IsNullOrEmpty(destinationCity))
                     return BadRequest("Source city and/or desination city fields are not valid.");
 
-                var airports = _cheapestFlightService.FindCheapestFlight(sourceCity, destinationCity);
+                var cheapestFlight = _cheapestFlightService.FindCheapestFlight(sourceCity, destinationCity);
 
-                return Ok(airports);
+                return Ok(cheapestFlight);
             }
             catch (NotFoundCityException)
             {
@@ -64,11 +64,14 @@ namespace FlightAdvisor.API.Controllers
         {
             try
             {
+                if (file == null)
+                    return BadRequest("Please attach the file.");
+
                 var result = await _airportService.ImportFile(file);
 
                 return Ok("Successfully imported rows: " + result.SuccessfullyImportedRows + ", skipped rows: " + result.SkippedRows);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }

@@ -36,8 +36,7 @@ namespace FlightAdvisor.Core.Services
 
         private CheapestFlightModel FindCheapestRoute(string sourceCity, string destinationCity, Graph graph)
         {
-            var cheapestFlightModel = new CheapestFlightModel();
-            var cheapestRouteForEachAirport = new List<CheapestFlightByAirport>();
+            var cheapestRouteForEachAirport = new List<CheapestFlightModel>();
             var startingNodes = _airportRepository.GetWhere(x => x.City == sourceCity);
             var destinationNodes = _airportRepository.GetWhere(x => x.City == destinationCity);
 
@@ -48,30 +47,31 @@ namespace FlightAdvisor.Core.Services
             {
                 var calculator = new DistanceCalculator();
 
-                var graphResults = calculator.CalculateDistances(graph, item.IATA);
+                var graphResults = calculator.CalculateDistances(graph, item.IATA != null ? item.IATA : item.ICAO);
 
                 var cheapestPerAirport = graphResults
                     .Where(x => destinationNodes.Any(y => x.Key == y.IATA))
                     .OrderBy(x => x.Distance).FirstOrDefault();
 
-                if (double.IsInfinity(cheapestPerAirport.Distance))
-                    throw new CheapestRoutePriceIsInfinityException();
-
                 cheapestPerAirport.RouteNames.Add(cheapestPerAirport.Key);
-                cheapestRouteForEachAirport.Add(new CheapestFlightByAirport
+                cheapestRouteForEachAirport.Add(new CheapestFlightModel
                 {
-                    Route = string.Join(" - ", cheapestPerAirport.RouteNames),
+                    Route = string.Join(" -> ", GetAirportCityNames(cheapestPerAirport.RouteNames.Distinct().ToList())),
                     TotalPrice = cheapestPerAirport.Distance
                 });
             }
 
-            var cheapestRouteForAllAirports = cheapestRouteForEachAirport.OrderBy(x => x.TotalPrice).FirstOrDefault();
+            return FindCheapestRouteOfAllAirports(cheapestRouteForEachAirport);
+        }
 
-            return new CheapestFlightModel
+        private List<string> GetAirportCityNames(List<string> routeNames)
+        {
+            var airportCityNames = new List<string>();
+            foreach(var item in routeNames)
             {
-                Route = cheapestRouteForAllAirports.Route,//cheapestRouteForAllAirports.SourceAirport + " - " + cheapestRouteForAllAirports.Destination,
-                TotalPrice = cheapestRouteForAllAirports.TotalPrice
-            };
+                airportCityNames.Add(_airportRepository.GetWhere(x => x.IATA == item).FirstOrDefault().City);
+            }
+            return airportCityNames;
         }
 
         private void AddConnections(Graph graph)
@@ -88,8 +88,22 @@ namespace FlightAdvisor.Core.Services
             var airports = _airportRepository.GetAll();
             foreach (var item in airports)
             {
-                graph.AddNode(item.IATA);
+                    graph.AddNode(item.IATA != null ? item.IATA : item.ICAO);
             }
+        }
+
+        private CheapestFlightModel FindCheapestRouteOfAllAirports(List<CheapestFlightModel> cheapestRouteForEachAirport)
+        {
+            var cheapestRouteForAllAirports = cheapestRouteForEachAirport.OrderBy(x => x.TotalPrice).FirstOrDefault();
+
+            if (double.IsInfinity(cheapestRouteForAllAirports.TotalPrice))
+                throw new CheapestRoutePriceIsInfinityException();
+
+            return new CheapestFlightModel
+            {
+                Route = cheapestRouteForAllAirports.Route,
+                TotalPrice = cheapestRouteForAllAirports.TotalPrice
+            };
         }
     }
 }
